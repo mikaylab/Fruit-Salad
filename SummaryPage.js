@@ -17,7 +17,7 @@ class SummaryPage extends React.Component {
         this.day = moment().format('dddd')
         this.date = moment().format("MMMM Do YYYY");
         this.state = {
-            meals: [ {name: "Breakfast", date: moment().add(-3, 'hours')}, {name: "Midday Snack", date: moment().add(-39, "minutes")}].reverse(),
+            meals: [],
             activities: [],
             dailyActivityGoal: 0.0,
             dailyCaloriesGoal: 0.0,
@@ -26,19 +26,27 @@ class SummaryPage extends React.Component {
             dailyProteinGoal: 0.0
         }
     }
-    totalActivity() {
-        let totalActivity = 0.0;
-        let activities = this.state.activities;
-        activities.forEach((e) => {
-            totalActivity += e.duration;
-        });
-        return totalActivity;
+    calculateProgress(list,item, goal) {
+        return goal ? Math.fround(this.totalAmount(list, item)) / goal : 0;
     }
-    calcActivityProgress() {
-        return this.state.dailyActivityGoal ? Math.fround(this.totalActivity() / this.state.dailyActivityGoal) : 0;
+    totalAmount(list, item) {
+        let value = "";
+        switch (item) {
+            case "activity": value = "duration"; break;
+            case "calories": value = "calories"; break;
+            case "carbohydrates": value = "carbohydrates"; break;
+            case "fat": value = "fat"; break;
+            case "protein": value = "protein"; break;
+            default: console.log(`item not recognized: ${item}`); break;
+        }
+        let total = 0.0;
+        list.forEach(e => {
+            total += e[value];
+        });
+        return total;
     }
     displayMeals() {
-        const list = this.state.meals;
+        const list = this.state.meals.reverse();
         if (list.length != 0)
          return list.map((e, i) => (
             <ListItem key={i} title={e.name} titleStyle={styles.listTitle} bottomDivider
@@ -55,17 +63,17 @@ class SummaryPage extends React.Component {
             rightSubtitle={moment(e.date).format("h:mm a")} rightTitleStyle={styles.listTitle}/>));
         else return <Text style={{alignContent: 'center', color: '#5622F5'}}>No activity has been logged yet.</Text>
     }
-    // async getMealList() {
-    //     try {
-    //         let token = await AsyncStorage.getItem('@CurrentToken');
-    //         let mealList = await getMeals(token);
-    //         if (mealList !== null) {
-    //             this.setState({meals: mealList.meals});
-    //         }
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }
+    async getMealList() {
+        try {
+            let token = await AsyncStorage.getItem('@CurrentToken');
+            let mealList = await getMeals(token);
+            if (mealList !== null) {
+                this.setState({meals: mealList.meals});
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
     async getActivityList() {
         try {
             let token = await AsyncStorage.getItem('@CurrentToken');
@@ -98,9 +106,11 @@ class SummaryPage extends React.Component {
     componentDidMount() {
         this.getActivityList();
         this.getDailyGoals();
+        this.getMealList();
         this.focusListener = this.props.navigation.addListener('didFocus', () => {
             this.getActivityList();
             this.getDailyGoals();
+            this.getMealList();
         });
         
     }
@@ -116,33 +126,33 @@ class SummaryPage extends React.Component {
                 <View style={{flex: 1}}>
                     <Card containerStyle={styles.cardStyle} title="My Goal Progress" titleStyle={{textAlign: 'left'}}>
                         <View style={styles.goalView}>
-                            <GoalProgressBar progress={this.calcActivityProgress()} color='#EB21D4'/>
+                            <GoalProgressBar progress={this.calculateProgress(this.state.activities, "activity", this.state.dailyActivityGoal)} color='#EB21D4'/>
                             <View style={{marginTop: 10}}>
-                                <Text style={styles.goalTitle}> Total Activity: <Text> {this.totalActivity()} / {this.state.dailyActivityGoal} min(s)</Text></Text>
+                                <Text style={styles.goalTitle}> Total Activity: <Text> {this.totalAmount(this.state.activities, "activity")} / {this.state.dailyActivityGoal} min(s)</Text></Text>
                             </View>
                         </View>
                         <View style={styles.goalView}>
-                            <GoalProgressBar progress={0.5} color="#872ADE"/>
+                            <GoalProgressBar progress={this.calculateProgress(this.state.meals, "calories", this.state.dailyCaloriesGoal)} color="#872ADE"/>
                             <View style={{marginTop: 10}}>
-                                <Text style={styles.goalTitle}> Total Calories: <Text>760 / 2000</Text></Text>
+                                <Text style={styles.goalTitle}> Total Calories: <Text>{this.totalAmount(this.state.meals, "calories")} / {this.state.dailyCaloriesGoal}</Text></Text>
                             </View>
                         </View>
                         <View style={styles.goalView}>
-                            <GoalProgressBar progress={0.6} color="#C822F5"/>
+                            <GoalProgressBar progress={this.calculateProgress(this.state.meals, "carbohydrates", this.state.dailyCarbohydratesGoal)} color="#C822F5"/>
                             <View style={{marginTop: 10}}>
-                                <Text style={styles.goalTitle}> Total Carbohydrates: <Text>500 / 700</Text></Text>
+                                <Text style={styles.goalTitle}> Total Carbohydrates: <Text>{this.totalAmount(this.state.meals, "carbohydrates")} / {this.state.dailyCarbohydratesGoal}</Text></Text>
                             </View>
                         </View>
                         <View style={styles.goalView}>
-                            <GoalProgressBar progress={0.2} color="#5622F5"/>
+                            <GoalProgressBar progress={this.calculateProgress(this.state.meals, "fat", this.state.dailyFatGoal)} color="#5622F5"/>
                             <View style={{marginTop: 10}}>
-                                <Text style={styles.goalTitle}> Total Fat: <Text>300 / 700</Text></Text>
+                                <Text style={styles.goalTitle}> Total Fat: <Text>{this.totalAmount(this.state.meals, "fat")} / {this.state.dailyFatGoal}</Text></Text>
                             </View>
                         </View>
                         <View style={styles.goalView}>
-                            <GoalProgressBar progress={0.1} color="#1758FA"/>
+                            <GoalProgressBar progress={this.calculateProgress(this.state.meals, "protein", this.state.dailyProteinGoal)} color="#1758FA"/>
                             <View style={{marginTop: 10}}>
-                                <Text style={styles.goalTitle}> Total Protein: <Text>9 / 133</Text></Text>
+                                <Text style={styles.goalTitle}> Total Protein: <Text>{this.totalAmount(this.state.meals, "protein")} / {this.state.dailyProteinGoal}</Text></Text>
                             </View>
                         </View>
                     </Card>
