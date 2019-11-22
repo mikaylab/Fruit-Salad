@@ -5,11 +5,12 @@ import SignUp from './SignUp';
 import Profile from './Profile';
 import SummaryPage from './SummaryPage';
 import ActivityLog from './ActivityLog';
-import NewActivity from './NewActivity';
+import NewActivity from './ActivityItem';
 import HamburgerIcon from './HamburgerIcon';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createStackNavigator} from 'react-navigation-stack';
+import MealLog from './MealsLog';
 
 
 const AuthSwitch = createSwitchNavigator(
@@ -20,6 +21,26 @@ const AuthSwitch = createSwitchNavigator(
   },
   {
     initialRouteName: 'Home'
+  }
+)
+const MealStack = createStackNavigator(
+  {
+    "Meal Log": {
+      screen: MealLog,
+      navigationOptions: ({navigation}) => ({
+        title: 'Meal Log'
+      })
+    },
+    "MealItem": {
+      screen: MealItem,
+      navigationOptions: ({navigation}) => ({
+        title: 'Meal'
+      })
+    }
+  },
+  {
+    initialRouteName: "Meal Log",
+    headerMode: 'none'
   }
 )
 const ActivityStack = createStackNavigator(
@@ -53,7 +74,8 @@ const TopDrawerNavigator = createDrawerNavigator(
       navigationOptions: ({navigation}) => ({
         title: 'Profile'
       })
-    }
+    },
+    "Meal Log": MealStack
   },
   {
     initialRouteName: 'Dashboard'
