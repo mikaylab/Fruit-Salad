@@ -3,9 +3,9 @@ import {Animated, Text, View, AsyncStorage, StyleSheet, TouchableOpacity, FlatLi
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Meal from './Meal';
 import { Icon, ListItem, Tooltip } from 'react-native-elements';
-import getMeals from './API/getMeals';
-import deleteMeal from './API/deleteMeal';
-import getMealFoods from './API/getMealFoods';
+import getMeals from './API/meals/getMeals';
+import deleteMeal from './API/meals/deleteMeal';
+import getMealFoods from './API/meals/getMealFoods';
 
 class MealLog extends React.Component {
     constructor(props) {
@@ -64,7 +64,7 @@ class MealLog extends React.Component {
             </TouchableOpacity>
         )
     }
-    async removeItem(item) {
+    async removeMeal(item) {
         try {
             let id = item.id;
             let token = await AsyncStorage.getItem('@CurrentToken');
@@ -78,12 +78,13 @@ class MealLog extends React.Component {
             console.log(e);
         }
     }
-    modifyMeal(item) {
+    async modifyMeal(item) {
         console.log(this.props.navigation.state.params);
         let params = {
             id: item.id,
             name: item.name || undefined,
             date: item.date || undefined,
+            foods: await this.getFoodList(item.id),
             updateLog: this.handleOnNavigatedBack.bind(this)
         };
         this.props.navigation.navigate("MealItem", params);
@@ -119,7 +120,7 @@ class MealLog extends React.Component {
                     data={this.state.activities.reverse()}
                     renderItem={({item}) => 
                     <Swipeable
-                    renderLeftActions={(dragX) => <this.LeftActions item={item} dragX={dragX} onPress={this.removeItem.bind(this)}/>}
+                    renderLeftActions={(dragX) => <this.LeftActions item={item} dragX={dragX} onPress={this.removeMeal.bind(this)}/>}
                     renderRightActions={(dragX) => <this.RightActions item={item} dragX={dragX} onPress={this.modifyMeal.bind(this)}/>}>
                         <Meal date={item.date} id={item.id} name={item.name} foods={this.getFoodList(item.id)} calories={item.calories}/>
                     </Swipeable>}
