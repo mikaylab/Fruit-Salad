@@ -12,17 +12,20 @@ if (
   }
 export default class Meal extends React.Component {
     state = {expanded: false}
-    getCalories() {
-        //Display the Calories, Carbohydrates
-    }
-    getCarbohydrates(){
-
-    }
-    getProtein() {
-
-    }
-    getFat() {
-
+    totalAmount(list, item) {
+        let value = "";
+        switch (item) {
+            case "calories": value = "calories"; break;
+            case "carbohydrates": value = "carbohydrates"; break;
+            case "fat": value = "fat"; break;
+            case "protein": value = "protein"; break;
+            default: console.log(`item not recognized: ${item}`); break;
+        }
+        let total = 0.0;
+        list.forEach(e => {
+            total += e[value];
+        });
+        return total;
     }
     render() {
         return (
@@ -35,10 +38,10 @@ export default class Meal extends React.Component {
                     rightTitle={moment(this.props.date).format("h:mm a")}
                     subtitle={this.state.expanded ? <View/> :
                         <View>
-                            <Text style={styles.dataStyle}>Total Calories: {pluralize('calorie', 90, true)}</Text>
-                            <Text style={styles.dataStyle}>Total Carbohydrates: {pluralize('unit', 8, true)}</Text>
-                            <Text style={styles.dataStyle}>Total Protein: {pluralize('unit', 10, true)}</Text>
-                            <Text style={styles.dataStyle}>Total Fat: {pluralize('gram', 4, true)}</Text>
+                            <Text style={styles.dataStyle}>Total Calories: {pluralize('calorie', this.totalAmount(this.props.foods, "calories"), true)}</Text>
+                            <Text style={styles.dataStyle}>Total Carbohydrates: {pluralize('unit', this.totalAmount(this.props.foods, "carbohydrates" ), true)}</Text>
+                            <Text style={styles.dataStyle}>Total Protein: {pluralize('unit', this.totalAmount(this.props.foods, "protein" ), true)}</Text>
+                            <Text style={styles.dataStyle}>Total Fat: {pluralize('gram', this.totalAmount(this.props.foods, "fat"), true)}</Text>
                             <Text>Foods:</Text>
                             <Divider style={{backgroundColor: 'black'}}/>
                             <FlatList
