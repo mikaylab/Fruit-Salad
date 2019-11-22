@@ -5,6 +5,7 @@ import Meal from './Meal';
 import { Icon, ListItem, Tooltip } from 'react-native-elements';
 import getMeals from './API/getMeals';
 import deleteMeal from './API/deleteMeal';
+import getMealFoods from './API/getMealFoods';
 
 class MealLog extends React.Component {
     constructor(props) {
@@ -18,9 +19,20 @@ class MealLog extends React.Component {
             let token = await AsyncStorage.getItem('@CurrentToken');
             let mealList = await getMeals(token);
             if (mealList !== null) {
-                this.setState({activities: mealList.activities});
+                this.setState({meals: mealList.meals});
             }
         } catch (e) {
+            console.log(e);
+        }
+    }
+    async getFoodList(mealId) {
+        try {
+            let token = await AsyncStorage.getItem('@CurrentToken');
+            let foods = await getMealFoods(token, mealId);
+            if (foods !== null) {
+                return foods;
+            }
+        }catch(e) {
             console.log(e);
         }
     }
@@ -109,7 +121,7 @@ class MealLog extends React.Component {
                     <Swipeable
                     renderLeftActions={(dragX) => <this.LeftActions item={item} dragX={dragX} onPress={this.removeItem.bind(this)}/>}
                     renderRightActions={(dragX) => <this.RightActions item={item} dragX={dragX} onPress={this.modifyMeal.bind(this)}/>}>
-                        <Meal date={item.date} id={item.id} name={item.name} duration={item.duration} calories={item.calories}/>
+                        <Meal date={item.date} id={item.id} name={item.name} foods={this.getFoodList(item.id)} calories={item.calories}/>
                     </Swipeable>}
                     keyExtractor={(item, index) => `list-${item}-${index}`}
                 />
