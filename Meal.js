@@ -5,19 +5,28 @@ import Food from './Food';
 import moment from 'moment';
 import pluralize from 'pluralize';
 import _ from 'lodash';
+import getMealFoods from './API/meals/getMealFoods';
 
-if (
-    Platform.OS === 'android' &&
-    UIManager.setLayoutAnimationEnabledExperimental
-  ) {
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
+}
 export default class Meal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             expanded: false,
             foods: []
+        }
+    }
+    async getFoodList(mealId) {
+        try {
+            let token = await AsyncStorage.getItem('@CurrentToken');
+            let foods = await getMealFoods(token, mealId);
+            if (foods !== null) {
+                this.setState({foods: foods.foods});
+            }
+        }catch(e) {
+            console.log(e);
         }
     }
     totalAmount(item) {
@@ -31,7 +40,7 @@ export default class Meal extends React.Component {
             case "carbohydrates": value = "carbohydrates"; break;
             case "fat": value = "fat"; break;
             case "protein": value = "protein"; break;
-            default: console.log(`item not recognized: ${item}`); break;
+            default: console.log(`Item not recognized: ${item}`); break;
         }
         let total = 0.0;
 
@@ -41,7 +50,7 @@ export default class Meal extends React.Component {
         return total;
     }
     componentDidMount() {
-        this.setState({foods: this.props.foods});
+        this.getFoodList();
     }
     render() {
         return (
@@ -61,7 +70,7 @@ export default class Meal extends React.Component {
                             <Text>Foods:</Text>
                             <Divider style={{backgroundColor: 'black'}}/>
                             <FlatList
-                                data={this.state.foods.reverse() || []}
+                                data={this.state.foods.reverse()}
                                 renderItem={({item}) => 
                                 {
                                     <Food id={item.id} name={item.name} carbohydrates={item.carbohydrates} fat={item.fat} protein={item.protein} calories={item.calories}/>
