@@ -16,6 +16,17 @@ export default class MealItem extends React.Component {
             foods: []
         }
     }
+    async getFoodList(mealId) {
+        try {
+            let token = await AsyncStorage.getItem('@CurrentToken');
+            let foods = await getMealFoods(token, mealId);
+            if (foods !== null) {
+                this.setState({foods: foods.foods});
+            }
+        } catch(e) {
+            console.log(e);
+        }
+    }
     setName(event) {
         this.setState({name: event.nativeEvent.text})
     }
