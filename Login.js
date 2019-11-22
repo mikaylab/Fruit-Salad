@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, View} from 'react-native';
 import Modal from './Modal';
-import loginCurrentUser from './API/logCurrentUser';
-import authUser from './API/authUser';
+import loginCurrentUser from './API/user/logCurrentUser';
+import authUser from './API/user/authUser';
 import { Button, ListItem, Input } from 'react-native-elements';
 import {AsyncStorage} from 'react-native';
 

@@ -1,4 +1,4 @@
-export default function getMealFoods(token, id) {
+export default async function getMealFoods(token, id) {
     let myHeaders = new Headers();
     myHeaders.append("x-access-token", token);
     myHeaders.append("Content-Type", "application/json");

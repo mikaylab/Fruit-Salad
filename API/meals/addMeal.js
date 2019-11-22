@@ -1,4 +1,4 @@
-export default async function addActivity(fields, token) {
+export default async function addMeal(fields, token) {
     let myHeaders = new Headers();
     myHeaders.append("x-access-token", token);
     myHeaders.append("Content-Type", "application/json");

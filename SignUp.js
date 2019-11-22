@@ -2,9 +2,9 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import {Button, ListItem, Input} from 'react-native-elements';
 import Modal from './Modal';
-import createNewUser from './API/createNewUser';
-import loginCurrentUser from './API/logCurrentUser';
-import authUser from './API/authUser';
+import createNewUser from './API/user/createNewUser';
+import loginCurrentUser from './API/user/logCurrentUser';
+import authUser from './API/user/authUser';
 import {AsyncStorage} from 'react-native';
 
 class SignUp extends React.Component {

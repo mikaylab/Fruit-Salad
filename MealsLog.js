@@ -30,7 +30,7 @@ class MealLog extends React.Component {
             let token = await AsyncStorage.getItem('@CurrentToken');
             let foods = await getMealFoods(token, mealId);
             if (foods !== null) {
-                return foods;
+                return foods.foods;
             }
         }catch(e) {
             console.log(e);
@@ -117,7 +117,7 @@ class MealLog extends React.Component {
                     </TouchableOpacity>}
                 />
                 <FlatList
-                    data={this.state.activities.reverse()}
+                    data={this.state.meals.reverse()}
                     renderItem={({item}) => 
                     <Swipeable
                     renderLeftActions={(dragX) => <this.LeftActions item={item} dragX={dragX} onPress={this.removeMeal.bind(this)}/>}

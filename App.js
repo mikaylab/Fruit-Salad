@@ -11,6 +11,7 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createStackNavigator} from 'react-navigation-stack';
 import MealLog from './MealsLog';
+import MealItem from './MealItem';
 
 
 const AuthSwitch = createSwitchNavigator(
@@ -68,7 +69,12 @@ const TopDrawerNavigator = createDrawerNavigator(
     Dashboard: {
       screen: SummaryPage,
     },
-    "Activity Log": ActivityStack,
+    "Activity Log": {
+      screen: ActivityStack,
+      navigationOptions: ({navigation}) => ({
+        title: 'Activity Log'
+      })
+    },
     Profile: {
       screen: Profile,
       navigationOptions: ({navigation}) => ({

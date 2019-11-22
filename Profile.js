@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, AsyncStorage, StyleSheet} from 'react-native';
-import updateUserInfo from './API/updateUserInfo';
+import updateUserInfo from './API/user/updateUserInfo';
 import { Divider, Button, ListItem, Input } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
-import deleteUser from './API/deleteUser';
-import getUserProfile from './API/getUserInfo';
+import deleteUser from './API/user/deleteUser';
+import getUserProfile from './API/user/getUserInfo';
 
 class Profile extends React.Component {
     constructor(props) {

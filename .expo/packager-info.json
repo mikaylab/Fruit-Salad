@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 18422,
   "expoServerNgrokUrl": "https://d8-nsg.mbuford.cs639-react-native-3-mikaylab.exp.direct",
   "packagerNgrokUrl": "https://packager.d8-nsg.mbuford.cs639-react-native-3-mikaylab.exp.direct",
-  "ngrokPid": 6213
+  "ngrokPid": 18433
 }
