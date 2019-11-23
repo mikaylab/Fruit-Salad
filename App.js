@@ -12,6 +12,8 @@ import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createStackNavigator} from 'react-navigation-stack';
 import MealLog from './MealsLog';
 import MealItem from './MealItem';
+import AddFood from './AddFood';
+import AddFoodItem from './AddFoodItem';
 
 
 const AuthSwitch = createSwitchNavigator(
@@ -24,6 +26,14 @@ const AuthSwitch = createSwitchNavigator(
     initialRouteName: 'Home'
   }
 )
+const FoodStack = createStackNavigator({
+  "AddFood": {
+    screen: AddFood
+  },
+  "AddFoodItem": {
+    screen: AddFoodItem
+  }
+})
 const MealStack = createStackNavigator(
   {
     "Meal Log": {
@@ -37,7 +47,8 @@ const MealStack = createStackNavigator(
       navigationOptions: ({navigation}) => ({
         title: 'Meal'
       })
-    }
+    },
+    "Foods": FoodStack
   },
   {
     initialRouteName: "Meal Log",

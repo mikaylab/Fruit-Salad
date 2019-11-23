@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, StyleSheet, AsyncStorage, TouchableOpacity} from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import { ListItem, Input, Button, Divider, Icon } from 'react-native-elements';
+import { ListItem, Input, Button, Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import moment from 'moment';
 import addMeal from './API/meals/addMeal';
@@ -87,7 +87,7 @@ export default class MealItem extends React.Component {
                         rightTitle={
                             <TouchableOpacity
                                 style={styles.addButton} 
-                                onPress={() => console.log("Pressed add Food button")}>
+                                onPress={() => this.props.navigation.navigate("Foods")}>
                                 <Icon color='white' type='font-awesome' size={20} name='plus'/>
                             </TouchableOpacity>
                         }
