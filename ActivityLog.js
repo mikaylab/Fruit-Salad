@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         position: 'relative',
-        top: 5,
         right: 10
     }
 })

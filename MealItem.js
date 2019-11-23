@@ -1,11 +1,12 @@
 import React from 'react';
-import {Text, View, StyleSheet, AsyncStorage} from 'react-native';
+import {Text, View, StyleSheet, AsyncStorage, TouchableOpacity} from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import { ListItem, Input, Button } from 'react-native-elements';
+import { ListItem, Input, Button, Divider, Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import moment from 'moment';
 import addMeal from './API/meals/addMeal';
 import updateMeal from './API/meals/updateMeal';
+import getMealFoods from './API/meals/getMealFoods';
 
 export default class MealItem extends React.Component {
     constructor(props) {
@@ -54,8 +55,11 @@ export default class MealItem extends React.Component {
     componentDidMount() {
         //initialize states with already existing values otherwise, set them to default values
         this.setState({name: this.props.navigation.getParam('name', "Name")});
-        this.setState({date: this.props.navigation.getParam('date', moment().format("h:mm a"))});
-        this.setState({foods: this.props.navigation.getParam('foods', [])});
+        this.setState({date: this.props.navigation.getParam('date', moment().format("h:mm a"))})
+        let id = this.props.navigation.getParam('id', undefined);
+        if (id) {
+            this.getFoodList(id);
+        }
     }
     render() {
         return(<ScrollView>
@@ -76,8 +80,20 @@ export default class MealItem extends React.Component {
                     />
                 </View>
                 <View>
-                    {/* For foods */}
+                    <ListItem 
+                        title="Foods"
+                        titleStyle={styles.titleStyle}
+                        bottomDivider
+                        rightTitle={
+                            <TouchableOpacity
+                                style={styles.addButton} 
+                                onPress={() => console.log("Pressed add Food button")}>
+                                <Icon color='white' type='font-awesome' size={20} name='plus'/>
+                            </TouchableOpacity>
+                        }
+                        />
                 </View>
+                {/* Section for foods that were added */}
                 <View>
                 <ListItem 
                         title="Timestamp"
@@ -145,5 +161,17 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         width: 100,
         top: 10
+    },
+    addButton: {
+        padding: 1,
+        height: 30,
+        width: 30,
+        borderRadius: 60,
+        backgroundColor: 'indigo',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        top: 0,
+        right: 10
     }
 })

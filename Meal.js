@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View,TouchableOpacity, Platform, LayoutAnimation, UIManager, StyleSheet, FlatList} from 'react-native';
+import {Text, View,TouchableOpacity, Platform, AsyncStorage, LayoutAnimation, UIManager, StyleSheet, FlatList} from 'react-native';
 import {ListItem, Divider} from 'react-native-elements';
 import Food from './Food';
 import moment from 'moment';
