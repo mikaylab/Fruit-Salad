@@ -22,9 +22,9 @@ export default class AddFood extends React.Component {
         this.setState({foodLib: _foodLib.foods});
     }
     prepareModal(item) {
-        let content = <View style={{marginRight: 40, marginLeft: 40}}>
+        let content = <View style={{marginTop: 80, alignItems:'center', justifyContent: 'center'}}>
                         <Text style={styles.titleStyle}>How many servings did you have?</Text>
-                        <Picker mode='dialog' selectedValue={1} style={{width: 100}}>
+                        <Picker mode='dropdown' selectedValue={1} style={{width: 100}}>
                             <Picker.Item label={1} value={1}/>
                             <Picker.Item label={2} value={2}/>
                             <Picker.Item label={3} value={3}/>
@@ -37,7 +37,7 @@ export default class AddFood extends React.Component {
                             <Picker.Item label={10} value={10}/>
                             <Picker.Item label={11} value={11}/>
                         </Picker>
-                        <Text onPress={() => this.hideModal()}>Submit</Text>
+                        <Text style={styles.linkText} onPress={() => this.hideModal()}>Submit</Text>
                     </View>
         this.setState({modalContent: content});
         this.showModal();
@@ -72,7 +72,7 @@ export default class AddFood extends React.Component {
                     }
                     keyExtractor={(item, index) => `list-${item.name}-${index}`}
                 />
-                <Modal width={300} height={500} content={this.state.modalContent} show={this.state.showModal} hide={() => this.hideModal()}/>
+                <Modal width={300} height={400} content={this.state.modalContent} show={this.state.showModal} hide={() => this.hideModal()}/>
             </ScrollView>
         );
     }

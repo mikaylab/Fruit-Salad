@@ -32,7 +32,7 @@ const FoodStack = createStackNavigator({
   },
   "AddFoodItem": {
     screen: AddFoodItem
-  }
+  },
 })
 const MealStack = createStackNavigator(
   {
