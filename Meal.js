@@ -50,7 +50,7 @@ export default class Meal extends React.Component {
         return total;
     }
     componentDidMount() {
-        this.getFoodList();
+        this.getFoodList(this.props.id);
     }
     render() {
         return (
