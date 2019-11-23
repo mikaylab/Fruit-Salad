@@ -75,7 +75,7 @@ export default class MealItem extends React.Component {
                         labelStyle={styles.titleStyle}
                         inputStyle={styles.textInputStyle}
                         onChange={this.setName.bind(this)}
-                        />
+                    />
                     }
                     />
                 </View>

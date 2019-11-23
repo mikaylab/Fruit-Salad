@@ -3,8 +3,8 @@ import {Animated, Text, View, AsyncStorage, StyleSheet, TouchableOpacity, FlatLi
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Activity from './Activity';
 import { Icon, ListItem, Tooltip } from 'react-native-elements';
-import getActivity from './API/activity/getActivity';
-import deleteActivity from './API/activity/deleteActivity';
+import getActivity from '../API/activity/getActivity';
+import deleteActivity from '../API/activity/deleteActivity';
 
 class ActivityLog extends React.Component {
     constructor(props) {

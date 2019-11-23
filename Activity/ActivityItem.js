@@ -4,8 +4,8 @@ import DatePicker from 'react-native-datepicker';
 import { ListItem, Input, Button } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import moment from 'moment';
-import addActivity from './API/activity/addActivity';
-import updateActivity from './API/activity/updateActivity';
+import addActivity from '../API/activity/addActivity';
+import updateActivity from '../API/activity/updateActivity';
 
 export default class NewActivity extends React.Component {
     constructor(props) {
