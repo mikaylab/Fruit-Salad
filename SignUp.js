@@ -78,7 +78,7 @@ class SignUp extends React.Component {
     showModal() {
         this.setState({showModal: true});
     }
-      hideModal() {
+    hideModal() {
         this.setState({showModal: false});
     }
     render() {
