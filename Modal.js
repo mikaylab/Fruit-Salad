@@ -14,7 +14,7 @@ class Modal extends React.Component {
             <View style={{width: screenWidth, height: screenHeight + screenHeight/1.5, backgroundColor: 'black', opacity: 0.75}}>
             </View>
           </TouchableWithoutFeedback>
-          <View style={{position: 'absolute', width: this.props.width, height: this.props.height, left: (screenWidth - this.props.width)/2, top: (screenHeight - this.props.height)/2, backgroundColor: 'white', borderRadius: 10}}>
+          <View style={{position: 'absolute', width: this.props.width, height: this.props.height/2, left: (screenWidth - this.props.width)/2, top: (screenHeight - this.props.height)/2, backgroundColor: 'white', borderRadius: 10}}>
             <Button buttonStyle={{alignItems: 'center', justifyContent: 'center', width: 70, height: 70, position: 'absolute', right: 0}} textStyle={{fontSize: 25}} text={'✕'} onPress={() => this.props.hide()}/>
             {this.props.content}
           </View>
