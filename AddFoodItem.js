@@ -5,11 +5,15 @@ import {ScrollView} from 'react-native-gesture-handler';
 import addFood from './API/meals/foods/addFood';
 
 export default class AddFoodItem extends React.Component {
-    static navigationOptions = ({navigation}) => ({
+    static navigationOptions = ({navigation}) => {
+        return {
         title: "Add New Food Item",
-        headerRight: <Text style={[styles.linkText, {right: 10}]} onPress={ () => console.log("Hey")/* navigation.getParam('sumbitFood') */}>Done</Text>,
+        headerRight: () => (
+            <Button title="Done" titleStyle={[styles.linkText, {right: 10}]} type="clear" onPress={navigation.getParam('submitFood')}/>
+        ),
         headerLeft: null
-    });
+        }; 
+    };
     constructor(props) {
         super(props);
         this.state = {
@@ -17,7 +21,8 @@ export default class AddFoodItem extends React.Component {
             calories: 0.0,
             protein: 0.0,
             carbohydrates: 0.0,
-            fat: 0.0
+            fat: 0.0,
+            id: ""
         }
     }
     setName(event) {
@@ -48,14 +53,15 @@ export default class AddFoodItem extends React.Component {
             let response = await addFood(item, token, this.props.navigation.getParam("id"));
             if (response !== null) {
                 console.log(response.message);
-                this.props.navigation.navigate("Meal Item");
+                this.props.navigation.navigate("MealItem");
             }
         } catch (e) {
             console.log(e);
         }
     }
     componentDidMount() {
-        this.props.navigation.setParams({submitFood: this.submitFood.bind(this)});
+        this.setState({id: this.props.navigation.getParam("id")});
+        this.props.navigation.setParams({submitFood: () => this.submitFood()});
     }
     render() {
         return (

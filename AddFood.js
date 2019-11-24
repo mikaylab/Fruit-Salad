@@ -20,7 +20,8 @@ export default class AddFood extends React.Component {
             showModal: false,
             modalContent: "",
             servingSize: 1,
-            addedFood: []
+            addedFood: [],
+            id: ""
         }
     }
     addFood(item) {
@@ -56,11 +57,12 @@ export default class AddFood extends React.Component {
     }
     componentDidMount() {
        this.getExistingFoods();
+       this.setState({id: this.props.navigation.getParam("id")});
     }
     render() {
         return (
             <ScrollView>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("AddFoodItem", {addFood: this.addFood.bind(this)})}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate("AddFoodItem", {id: this.state.id})}>
                     <ListItem topDivider bottomDivider title="Add new item..." titleStyle={styles.titleStyle}/>
                 </TouchableOpacity>
                 <FlatList
