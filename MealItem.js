@@ -46,6 +46,58 @@ export default class MealItem extends React.Component {
         }
         this.props.navigation.navigate("Meal Log");
     }
+    async removeFood(item) {
+        try {
+            let foodId = item.id;
+            let token = await AsyncStorage.getItem('@CurrentToken');
+            let response = await deleteFood(token, foodId);
+            if (response !== null) {
+                console.log(response.message);
+            }
+            this.getFoodList(this.state.id);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    async modifyFood(item) {
+        let params = {
+            id: item.id,
+            name: item.name,
+            calories: item.calories,
+            carbohydrates: item.carbohydrates,
+            protein: item.protein,
+            fat: item.fat
+        };
+        this.props.navigation.navigate("AddFoodItem", params);
+    }
+    LeftActions({item, dragX, onPress}) {
+        const scale = dragX.interpolate({
+            inputRange: [40, 100],
+            outputRange: [1,1],
+            extrapolate: 'clamp' //locks the text to the output value
+        })
+        return (
+            <TouchableOpacity onPress={() => onPress(item)}>
+                <View style={styles.leftAction}>
+                    <Animated.Text style={[styles.actionText, {transform: [{scale}]}] }>Delete</Animated.Text>
+                </View>
+            </TouchableOpacity>
+        )
+    }
+    RightActions({item, dragX, onPress}) {
+        const scale = dragX.interpolate({
+            inputRange: [-100, 0],
+            outputRange: [1,1],
+            extrapolate: 'clamp' //locks the text to the output value
+        })
+        return (
+            <TouchableOpacity onPress={() => onPress(item)}>
+                <View style={styles.rightAction}>
+                    <Animated.Text style={[styles.actionText, {transform: [{scale}]}] }>Edit</Animated.Text>
+                </View>
+            </TouchableOpacity>
+        )
+    }
     componentDidMount() {
         //initialize states with already existing values otherwise, set them to default values
         this.setState({name: this.props.navigation.getParam('name', "Name")});
@@ -101,13 +153,17 @@ export default class MealItem extends React.Component {
                         <FlatList
                         data={this.state.foods}
                         renderItem={({item}) => 
-                            <Food name={item.name}
+                        <Swipeable
+                            renderLeftActions={(dragX) => <this.LeftActions item={item} dragX={dragX} onPress={this.removeFood.bind(this)}/>}
+                            renderRightActions={(dragX) => <this.RightActions item={item} dragX={dragX} onPress={this.modifyFood.bind(this)}/>}>
+                               <Food name={item.name}
                                 id={item.id}
                                 calories={item.calories}
                                 carbohydrates={item.carbohydrates}
                                 protein={item.protein}
                                 fat={item.fat} 
-                            />
+                                />
+                        </Swipeable>
                         }
                         keyExtractor={(item, index) => `list-${item.name}-${index}`}
                         />
