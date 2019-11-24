@@ -83,10 +83,12 @@ class MealLog extends React.Component {
     }
     componentDidMount() {
         this.getMealList();
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.getMealList();
+        });
     }
-    
-    handleOnNavigatedBack() {
-        this.getMealList();
+    componentWillUnmount() {
+        this.focusListener.remove();
     }
     render() {
         return (

@@ -34,7 +34,7 @@ export default class Meal extends React.Component {
             return 0;
         }
         let value = "";
-        const list = this.state.foods;
+        const list = Array.from(this.state.foods);
         switch (item) {
             case "calories": value = "calories"; break;
             case "carbohydrates": value = "carbohydrates"; break;
@@ -55,7 +55,7 @@ export default class Meal extends React.Component {
     render() {
         return (
             <View>
-                <TouchableOpacity onPress={() => { LayoutAnimation.configureNext(LayoutAnimation.Presets.spring); this.setState({ expanded: !this.state.expanded });}}>
+                <TouchableOpacity onPress={() => { LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); this.setState({ expanded: !this.state.expanded });}}>
                     <ListItem
                     key={this.props.id}
                     title={this.props.name}
@@ -70,12 +70,11 @@ export default class Meal extends React.Component {
                             <Text>Foods:</Text>
                             <Divider style={{backgroundColor: 'black'}}/>
                             <FlatList
-                                data={this.state.foods.reverse()}
+                                data={this.state.foods}
                                 renderItem={({item}) => 
-                                {
                                     <Food id={item.id} name={item.name} carbohydrates={item.carbohydrates} fat={item.fat} protein={item.protein} calories={item.calories}/>
-                                }}
-                                keyExtractor={(item, index) => `list-${item}-${index}`}
+                                }
+                                keyExtractor={(item, index) => `list-${item.name}-${index}`}
                             />
                         </View>
                         :

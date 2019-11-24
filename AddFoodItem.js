@@ -3,6 +3,7 @@ import {Text, AsyncStorage, StyleSheet} from 'react-native';
 import {ListItem, Input, Button} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import addFood from './API/meals/foods/addFood';
+import _ from 'lodash';
 
 export default class AddFoodItem extends React.Component {
     static navigationOptions = ({navigation}) => {
@@ -23,8 +24,7 @@ export default class AddFoodItem extends React.Component {
             calories: 0.0,
             protein: 0.0,
             carbohydrates: 0.0,
-            fat: 0.0,
-            id: ""
+            fat: 0.0
         }
     }
     setName(event) {
@@ -54,15 +54,14 @@ export default class AddFoodItem extends React.Component {
             let token = await AsyncStorage.getItem('@CurrentToken');
             let response = await addFood(item, token, this.props.navigation.getParam("id"));
             if (response !== null) {
-                console.log(response.message);
-                this.props.navigation.navigate("MealItem");
+                alert(`${_.capitalize(item.name)} added!`);
+                this.props.navigation.goBack();
             }
         } catch (e) {
             console.log(e);
         }
     }
     componentDidMount() {
-        this.setState({id: this.props.navigation.getParam("id")});
         this.props.navigation.setParams({submitFood: () => this.submitFood()});
     }
     render() {

@@ -1,11 +1,12 @@
 import React from 'react';
-import {Text, View, FlatList, StyleSheet, ScrollView, TouchableOpacity, PickerItem} from 'react-native';
+import {Text, View, FlatList, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import {ListItem, Button, Input} from 'react-native-elements';
 import getFoodLibrary from './API/foods/getFoodLibrary';
 import Food from './Food';
 import Modal from './Modal';
 import _ from 'lodash';
 import pluralize from 'pluralize';
+import addFood from './API/meals/foods/addFood';
 
 export default class AddFood extends React.Component {
     // Will use the Done to pass the food back to Meal Item!
@@ -22,19 +23,25 @@ export default class AddFood extends React.Component {
             showModal: false,
             modalContent: "",
             servingSize: 1,
-            addedFood: [],
             id: ""
         }
     }
-    addFood(item) {
-        //Add item to the meal
-        // We may not have the id, like if we clicked on the add button first. So we will have to pass the food back to MealItem.
-        _foods = this.state.addedFood;
-        item.calories *= servingSize;
-        item.carbohydrates *= servingSize;
-        item.protein *= servingSize;
-        item.fat *= servingSize;
-        this.setState({addedFood: _foods.push(item)});
+    async addFood(item) {
+        item.calories *= this.state.servingSize;
+        item.carbohydrates *= this.state.servingSize;
+        item.protein *= this.state.servingSize;
+        item.fat *= this.state.servingSize;
+        try {
+            let token = await AsyncStorage.getItem('@CurrentToken');
+            let response = await addFood(item, token, this.state.id);
+            if (response !== null) {
+                alert(`${_.capitalize(item.name)} added!`);
+                this.props.navigation.goBack();
+            }
+        } catch (e) {
+            console.log(e);
+        }
+        this.setState({servingSize: 1});
     }
     async getExistingFoods() {
         let _foodLib = await getFoodLibrary();
@@ -44,7 +51,7 @@ export default class AddFood extends React.Component {
         let content = <View style={{marginTop: 80, alignItems:'center', justifyContent: 'center'}}>
                         <Text style={styles.titleStyle}>How many servings did you have?</Text>
                         <View>
-                            <Input placeholder={`1 ${item.measure}`} containerStyle={{justifyContent:'center'}} inputContainerStyle={{width: 100}} onChangeText={(value) => {this.setState({servingSize: value })}}></Input>
+                            <Input placeholder={`1 ${item.measure}`} keyboardType='number-pad' containerStyle={{justifyContent:'center'}} inputContainerStyle={{width: 100}} onChangeText={(value) => {this.setState({servingSize: value })}}></Input>
                         </View>
                         <Text style={styles.linkText} onPress={() => {this.addFood(item); this.hideModal()}}>Submit</Text>
                     </View>
@@ -87,7 +94,6 @@ export default class AddFood extends React.Component {
         );
     }
 }
-const numberList = [1,2,3,4,5,6,7,8,9,10];
 const styles = StyleSheet.create({
     titleStyle: {
         fontSize: 20,
