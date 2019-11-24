@@ -8,14 +8,30 @@ import _ from 'lodash';
 import pluralize from 'pluralize';
 
 export default class AddFood extends React.Component {
+    // Will use the Done to pass the food back to Meal Item!
+    static navigationOptions = () => ({
+        title: "Add Food",
+        headerRight: <Text style={[styles.linkText, {right: 10}]} onPress={() => console.log("Done Pressed!")}>Done</Text>
+    });
     constructor(props) {
         super(props);
         this.state = {
             foodLib:[],
             showModal: false,
             modalContent: "",
-            servingSize: 1
+            servingSize: 1,
+            addedFood: []
         }
+    }
+    addFood(item) {
+        //Add item to the meal
+        // We may not have the id, like if we clicked on the add button first. So we will have to pass the food back to MealItem.
+        _foods = this.state.addedFood;
+        item.calories *= servingSize;
+        item.carbohydrates *= servingSize;
+        item.protein *= servingSize;
+        item.fat *= servingSize;
+        this.setState({addedFood: _foods.push(item)});
     }
     async getExistingFoods() {
         let _foodLib = await getFoodLibrary();
@@ -27,7 +43,7 @@ export default class AddFood extends React.Component {
                         <View>
                             <Input placeholder={`1 ${item.measure}`} containerStyle={{justifyContent:'center'}} inputContainerStyle={{width: 100}} onChangeText={(value) => {this.setState({servingSize: value })}}></Input>
                         </View>
-                        <Text style={styles.linkText} onPress={() => this.hideModal()}>Submit</Text>
+                        <Text style={styles.linkText} onPress={() => {this.addFood(item); this.hideModal()}}>Submit</Text>
                     </View>
         this.setState({modalContent: content});
         this.showModal();

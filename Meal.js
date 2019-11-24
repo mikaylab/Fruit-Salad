@@ -5,7 +5,7 @@ import Food from './Food';
 import moment from 'moment';
 import pluralize from 'pluralize';
 import _ from 'lodash';
-import getMealFoods from './API/meals/getMealFoods';
+import getMealFoods from './API/meals/foods/getMealFoods';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);

@@ -6,13 +6,14 @@ import { ScrollView } from 'react-native-gesture-handler';
 import moment from 'moment';
 import addMeal from './API/meals/addMeal';
 import updateMeal from './API/meals/updateMeal';
-import getMealFoods from './API/meals/getMealFoods';
+import getMealFoods from './API/meals/foods/getMealFoods';
 
 export default class MealItem extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             name: "Name",
+            id: "",
             date: moment().format('h:mm a'),
             foods: []
         }
@@ -31,18 +32,12 @@ export default class MealItem extends React.Component {
     setName(event) {
         this.setState({name: event.nativeEvent.text})
     }
-    // setFoods(event) {
-    //     let _foods = this.state.foods;
-    //     _foods.push()
-    //     this.setState
-    // }
     async submitFields() {
         let fields = { "name": this.state.name,"date": this.state.date}
 
         try {
-            let id = this.props.navigation.getParam('id', undefined);
             let token = await AsyncStorage.getItem('@CurrentToken');
-            let response = id ? await updateMeal(fields, token, id) : await addMeal(fields, token);
+            let response = id ? await updateMeal(fields, token, this.state.id) : await addMeal(fields, token);
             if (response !== null) {
                 console.log(response.message);
             }
@@ -56,9 +51,9 @@ export default class MealItem extends React.Component {
         //initialize states with already existing values otherwise, set them to default values
         this.setState({name: this.props.navigation.getParam('name', "Name")});
         this.setState({date: this.props.navigation.getParam('date', moment().format("h:mm a"))})
-        let id = this.props.navigation.getParam('id', undefined);
-        if (id) {
-            this.getFoodList(id);
+        this.setState({id: this.props.navigation.getParam('id', undefined)});
+        if (this.state.id) {
+            this.getFoodList(this.state.id);
         }
     }
     render() {
