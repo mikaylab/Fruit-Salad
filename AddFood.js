@@ -9,9 +9,11 @@ import pluralize from 'pluralize';
 
 export default class AddFood extends React.Component {
     // Will use the Done to pass the food back to Meal Item!
-    static navigationOptions = () => ({
+    static navigationOptions = ({navigation}) => ({
         title: "Add Food",
-        headerRight: <Text style={[styles.linkText, {right: 10}]} onPress={() => console.log("Done Pressed!")}>Done</Text>
+        headerRight: () => (
+            <Button title="Done" titleStyle={[styles.linkText, {right: 10}]} type="clear" onPress={() => navigation.navigate("MealItem")}/>
+        )
     });
     constructor(props) {
         super(props);

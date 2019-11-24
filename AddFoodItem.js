@@ -11,7 +11,9 @@ export default class AddFoodItem extends React.Component {
         headerRight: () => (
             <Button title="Done" titleStyle={[styles.linkText, {right: 10}]} type="clear" onPress={navigation.getParam('submitFood')}/>
         ),
-        headerLeft: null
+        headerLeft: () => (
+            <Button title="Cancel" titleStyle={[styles.linkText, {left: 10}]} type="clear" onPress={() => navigation.goBack()}/>
+        )
         }; 
     };
     constructor(props) {
@@ -84,6 +86,7 @@ export default class AddFoodItem extends React.Component {
                         <Input
                             placeholder={JSON.stringify(this.state.calories)}
                             maxLength={100}
+                            keyboardType='decimal-pad'
                             returnKeyType='done'
                             label="Calories"
                             labelStyle={styles.titleStyle}
@@ -98,6 +101,7 @@ export default class AddFoodItem extends React.Component {
                             placeholder={JSON.stringify(this.state.protein)}
                             maxLength={100}
                             returnKeyType='done'
+                            keyboardType='decimal-pad'
                             label="Protein"
                             labelStyle={styles.titleStyle}
                             inputStyle={styles.textInputStyle}
@@ -111,6 +115,7 @@ export default class AddFoodItem extends React.Component {
                             placeholder={JSON.stringify(this.state.carbohydrates)}
                             maxLength={100}
                             returnKeyType='done'
+                            keyboardType='decimal-pad'
                             label="Carbohydrates"
                             labelStyle={styles.titleStyle}
                             inputStyle={styles.textInputStyle}
@@ -124,6 +129,7 @@ export default class AddFoodItem extends React.Component {
                             placeholder={JSON.stringify(this.state.fat)}
                             maxLength={100}
                             returnKeyType='done'
+                            keyboardType='decimal-pad'
                             label="Fat"
                             labelStyle={styles.titleStyle}
                             inputStyle={styles.textInputStyle}
