@@ -55,7 +55,9 @@ export default class MealItem extends React.Component {
             this.getFoodList(this.state.id);
         }
         this.focusListener = this.props.navigation.addListener('didFocus', () => {
-            this.getFoodList(this.state.id);
+            if (this.state.id) {
+                this.getFoodList(this.state.id);
+            }
         });
     }
     componentWillUnmount() {
