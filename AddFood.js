@@ -1,11 +1,10 @@
 import React from 'react';
-import {Text, View, FlatList, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
+import {Text, View, FlatList, AsyncStorage, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import {ListItem, Button, Input} from 'react-native-elements';
 import getFoodLibrary from './API/foods/getFoodLibrary';
 import Food from './Food';
 import Modal from './Modal';
 import _ from 'lodash';
-import pluralize from 'pluralize';
 import addFood from './API/meals/foods/addFood';
 
 export default class AddFood extends React.Component {
@@ -27,6 +26,7 @@ export default class AddFood extends React.Component {
         }
     }
     async addFood(item) {
+        item.name = _.capitalize(item.name);
         item.calories *= this.state.servingSize;
         item.carbohydrates *= this.state.servingSize;
         item.protein *= this.state.servingSize;
@@ -35,7 +35,7 @@ export default class AddFood extends React.Component {
             let token = await AsyncStorage.getItem('@CurrentToken');
             let response = await addFood(item, token, this.state.id);
             if (response !== null) {
-                alert(`${_.capitalize(item.name)} added!`);
+                alert(`${item.name} added!`);
                 this.props.navigation.goBack();
             }
         } catch (e) {
@@ -51,7 +51,7 @@ export default class AddFood extends React.Component {
         let content = <View style={{marginTop: 80, alignItems:'center', justifyContent: 'center'}}>
                         <Text style={styles.titleStyle}>How many servings did you have?</Text>
                         <View>
-                            <Input placeholder={`1 ${item.measure}`} keyboardType='number-pad' containerStyle={{justifyContent:'center'}} inputContainerStyle={{width: 100}} onChangeText={(value) => {this.setState({servingSize: value })}}></Input>
+                            <Input placeholder={`1 ${item.measure}`} keyboardType='number-pad' returnKeyType='done' containerStyle={{justifyContent:'center'}} inputContainerStyle={{width: 100}} onChangeText={(value) => {this.setState({servingSize: value })}}></Input>
                         </View>
                         <Text style={styles.linkText} onPress={() => {this.addFood(item); this.hideModal()}}>Submit</Text>
                     </View>

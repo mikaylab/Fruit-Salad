@@ -70,16 +70,12 @@ class MealLog extends React.Component {
         let params = {
             id: item.id,
             name: item.name || undefined,
-            date: item.date || undefined,
-            updateLog: this.handleOnNavigatedBack.bind(this)
+            date: item.date || undefined
         };
         this.props.navigation.navigate("MealItem", params);
     }
     addMeal() {
-        this.props.navigation.navigate("MealItem",
-         {
-            updateLog: this.handleOnNavigatedBack.bind(this) //Remove this
-        });
+        this.props.navigation.navigate("MealItem");
     }
     componentDidMount() {
         this.getMealList();
@@ -112,7 +108,7 @@ class MealLog extends React.Component {
                     renderRightActions={(dragX) => <this.RightActions item={item} dragX={dragX} onPress={this.modifyMeal.bind(this)}/>}>
                         <Meal date={item.date} id={item.id} name={item.name}/>
                     </Swipeable>}
-                    keyExtractor={(item, index) => `list-${item}-${index}`}
+                    keyExtractor={(item, index) => `list-${item.id}-${index}`}
                 />
             </ScrollView>
     );

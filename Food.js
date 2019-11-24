@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
         color: 'dimgray'
     },
     nameStyle: {
-        fontSize: 20,
+        fontSize: 15,
         fontWeight: '500',
-        color: 'midnightblue'
+        color: 'sandybrown'
     }
 })

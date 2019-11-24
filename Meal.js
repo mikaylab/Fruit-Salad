@@ -88,10 +88,12 @@ export default class Meal extends React.Component {
 }
 const styles = StyleSheet.create({
     dataStyle: {
-        color: 'dimgray'
+        color: 'dimgray',
+        fontSize: 15
     },
     nameStyle: {
         fontWeight: '500',
-        color: 'midnightblue'
+        fontSize: 20,
+        color: 'black'
     }
 })

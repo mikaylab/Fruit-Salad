@@ -44,7 +44,6 @@ export default class MealItem extends React.Component {
         } catch (e) {
             console.log(e);
         }
-        this.props.navigation.state.params.updateLog();
         this.props.navigation.navigate("Meal Log");
     }
     componentDidMount() {
