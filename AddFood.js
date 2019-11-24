@@ -60,7 +60,7 @@ export default class AddFood extends React.Component {
     render() {
         return (
             <ScrollView>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate("AddFoodItem")}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate("AddFoodItem", {addFood: this.addFood.bind(this)})}>
                     <ListItem topDivider bottomDivider title="Add new item..." titleStyle={styles.titleStyle}/>
                 </TouchableOpacity>
                 <FlatList

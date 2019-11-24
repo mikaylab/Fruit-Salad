@@ -4,6 +4,10 @@ import {ListItem, Input, Button} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 
 export default class AddFoodItem extends React.Component {
+    static navigationOptions = () => ({
+        title: "Add New Food Item",
+        headerRight: <Text style={[styles.linkText, {right: 10}]} onPress={() => this.submitFood()}>Done</Text>
+    });
     constructor(props) {
         super(props);
         this.state = {
@@ -28,6 +32,17 @@ export default class AddFoodItem extends React.Component {
     }
     setFat(event) {
         this.setState({fat: event.nativeEvent.text});
+    }
+    submitFood() {
+        let item = {
+            name: this.state.name,
+            calories: this.state.calories,
+            carbohydrates: this.state.carbohydrates,
+            protein: this.state.protein,
+            fat: this.state.fat
+        }
+        this.props.navigation.state.params.addFood(item);
+        this.props.navigation.goBack();
     }
     render() {
         return (
