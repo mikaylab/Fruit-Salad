@@ -6,7 +6,8 @@ import {ScrollView} from 'react-native-gesture-handler';
 export default class AddFoodItem extends React.Component {
     static navigationOptions = () => ({
         title: "Add New Food Item",
-        headerRight: <Text style={[styles.linkText, {right: 10}]} onPress={() => this.submitFood()}>Done</Text>
+        headerRight: <Text style={[styles.linkText, {right: 10}]} onPress={() => this.submitFood()}>Done</Text>,
+        headerLeft: null
     });
     constructor(props) {
         super(props);
