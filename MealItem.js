@@ -2,7 +2,8 @@ import React from 'react';
 import {Text, View, StyleSheet, AsyncStorage, TouchableOpacity} from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { ListItem, Input, Button, Icon } from 'react-native-elements';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, FlatList } from 'react-native-gesture-handler';
+import Food from './Food';
 import moment from 'moment';
 import addMeal from './API/meals/addMeal';
 import updateMeal from './API/meals/updateMeal';
@@ -34,10 +35,9 @@ export default class MealItem extends React.Component {
     }
     async submitFields() {
         let fields = { "name": this.state.name,"date": this.state.date}
-
         try {
             let token = await AsyncStorage.getItem('@CurrentToken');
-            let response = id ? await updateMeal(fields, token, this.state.id) : await addMeal(fields, token);
+            let response = this.state.id ? await updateMeal(fields, token, this.state.id) : await addMeal(fields, token);
             if (response !== null) {
                 console.log(response.message);
             }
@@ -55,6 +55,12 @@ export default class MealItem extends React.Component {
         if (this.state.id) {
             this.getFoodList(this.state.id);
         }
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.getFoodList(this.state.id);
+        });
+    }
+    componentWillUnmount() {
+        this.focusListener.remove();
     }
     render() {
         return(<ScrollView>
@@ -74,7 +80,9 @@ export default class MealItem extends React.Component {
                     }
                     />
                 </View>
+                { this.state.id ? 
                 <View>
+                    <View>
                     <ListItem 
                         title="Foods"
                         titleStyle={styles.titleStyle}
@@ -82,13 +90,31 @@ export default class MealItem extends React.Component {
                         rightTitle={
                             <TouchableOpacity
                                 style={styles.addButton} 
-                                onPress={() => this.props.navigation.navigate("Foods")}>
+                                onPress={() => this.props.navigation.navigate("Foods", {id: this.state.id})}>
                                 <Icon color='white' type='font-awesome' size={20} name='plus'/>
                             </TouchableOpacity>
                         }
                         />
+                    </View>
+                    <View>
+                        <FlatList
+                        data={this.state.foods}
+                        renderItem={({item}) => 
+                            <Food name={item.name}
+                                id={item.id}
+                                calories={item.calories}
+                                carbohydrates={item.carbohydrates}
+                                protein={item.protein}
+                                fat={item.fat} 
+                            />
+                        }
+                        keyExtractor={(item, index) => `list-${item.name}-${index}`}
+                        />
+                    </View>
                 </View>
-                {/* Section for foods that were added */}
+                    :
+                <View/>
+                }
                 <View>
                 <ListItem 
                         title="Timestamp"

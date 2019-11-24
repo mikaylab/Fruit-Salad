@@ -2,11 +2,12 @@ import React from 'react';
 import {Text, AsyncStorage, StyleSheet} from 'react-native';
 import {ListItem, Input, Button} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
+import addFood from './API/meals/foods/addFood';
 
 export default class AddFoodItem extends React.Component {
-    static navigationOptions = () => ({
+    static navigationOptions = ({navigation}) => ({
         title: "Add New Food Item",
-        headerRight: <Text style={[styles.linkText, {right: 10}]} onPress={() => this.submitFood()}>Done</Text>,
+        headerRight: <Text style={[styles.linkText, {right: 10}]} onPress={ () => console.log("Hey")/* navigation.getParam('sumbitFood') */}>Done</Text>,
         headerLeft: null
     });
     constructor(props) {
@@ -34,7 +35,7 @@ export default class AddFoodItem extends React.Component {
     setFat(event) {
         this.setState({fat: event.nativeEvent.text});
     }
-    submitFood() {
+    async submitFood() {
         let item = {
             name: this.state.name,
             calories: this.state.calories,
@@ -42,8 +43,19 @@ export default class AddFoodItem extends React.Component {
             protein: this.state.protein,
             fat: this.state.fat
         }
-        this.props.navigation.state.params.addFood(item);
-        this.props.navigation.goBack();
+        try {
+            let token = await AsyncStorage.getItem('@CurrentToken');
+            let response = await addFood(item, token, this.props.navigation.getParam("id"));
+            if (response !== null) {
+                console.log(response.message);
+                this.props.navigation.navigate("Meal Item");
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    componentDidMount() {
+        this.props.navigation.setParams({submitFood: this.submitFood.bind(this)});
     }
     render() {
         return (
@@ -129,6 +141,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '500',
         color: 'black'
+    },
+    linkText: {
+        color: '#46a2c7',
+        fontSize: 20,
+        fontWeight: '500'
     },
     textStyle: {
         fontSize: 15

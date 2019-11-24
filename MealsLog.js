@@ -62,13 +62,11 @@ class MealLog extends React.Component {
                 console.log(response.message);
             }
             this.getMealList();
-            console.log(this.props.navigation.state.params);
         } catch (e) {
             console.log(e);
         }
     }
     async modifyMeal(item) {
-        console.log(this.props.navigation.state.params);
         let params = {
             id: item.id,
             name: item.name || undefined,
@@ -80,7 +78,7 @@ class MealLog extends React.Component {
     addMeal() {
         this.props.navigation.navigate("MealItem",
          {
-            updateLog: this.handleOnNavigatedBack.bind(this)
+            updateLog: this.handleOnNavigatedBack.bind(this) //Remove this
         });
     }
     componentDidMount() {
@@ -93,8 +91,8 @@ class MealLog extends React.Component {
     render() {
         return (
             <ScrollView>
-                <ListItem title="Add new meal" titleStyle={{fontWeight: 'bold'}}
-                subtitle={<Tooltip height={100} width={200} backgroundColor="lavender" popover={<Text>Swipe left on an item to delete it. Swipe right to edit an item.</Text>}>
+                <ListItem bottomDivider title="Add new meal" titleStyle={{fontWeight: 'bold'}}
+                subtitle={<Tooltip height={100} width={200} backgroundColor="lavender" popover={<Text>Swipe left on an item to delete it. Swipe right to edit an item or add foods to a meal.</Text>}>
                     <Text>Want to edit or delete an item?</Text>
                 </Tooltip>}
                 rightElement={
@@ -110,7 +108,7 @@ class MealLog extends React.Component {
                     <Swipeable
                     renderLeftActions={(dragX) => <this.LeftActions item={item} dragX={dragX} onPress={this.removeMeal.bind(this)}/>}
                     renderRightActions={(dragX) => <this.RightActions item={item} dragX={dragX} onPress={this.modifyMeal.bind(this)}/>}>
-                        <Meal date={item.date} id={item.id} name={item.name} calories={item.calories}/>
+                        <Meal date={item.date} id={item.id} name={item.name}/>
                     </Swipeable>}
                     keyExtractor={(item, index) => `list-${item}-${index}`}
                 />

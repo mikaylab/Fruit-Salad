@@ -94,7 +94,7 @@ class ActivityLog extends React.Component {
     render() {
         return (
             <ScrollView>
-                <ListItem title="Add new activity" titleStyle={{fontWeight: 'bold'}}
+                <ListItem bottomDivider title="Add new activity" titleStyle={{fontWeight: 'bold'}}
                 subtitle={<Tooltip height={100} width={200} backgroundColor="lavender" popover={<Text>Swipe left on an item to delete it. Swipe right to edit an item.</Text>}>
                     <Text>Want to edit or delete an item?</Text>
                 </Tooltip>}

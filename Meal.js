@@ -82,7 +82,7 @@ export default class Meal extends React.Component {
                         <View/>     
                     }
                     bottomDivider/>
-                    <Text>Press to {this.state.expanded ? "collapse" : "expand"}</Text>
+                    <Text style={{backgroundColor: 'white'}}>Press to {this.state.expanded ? "collapse" : "expand"}</Text>
             </TouchableOpacity>
             </View>);
     }
