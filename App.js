@@ -15,6 +15,7 @@ import MealItem from './MealItem';
 import AddFood from './Food/AddFood';
 import AddFoodItem from './Food/AddFoodItem';
 import ModifyFoodItem from './Food/ModifyFoodItem';
+import GoalProgress from './GoalProgress';
 
 
 const AuthSwitch = createSwitchNavigator(
@@ -100,7 +101,8 @@ const TopDrawerNavigator = createDrawerNavigator(
         title: 'Profile'
       })
     },
-    "Meal Log": MealStack
+    "Meal Log": MealStack,
+    "Goal Progress": GoalProgress
   },
   {
     initialRouteName: 'Dashboard'
