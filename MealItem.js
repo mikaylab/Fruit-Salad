@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, View, StyleSheet, AsyncStorage, TouchableOpacity} from 'react-native';
 import DatePicker from 'react-native-datepicker';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { ListItem, Input, Button, Icon } from 'react-native-elements';
 import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import Food from './Food';
