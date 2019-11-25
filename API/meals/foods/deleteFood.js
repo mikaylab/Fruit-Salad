@@ -1,4 +1,4 @@
-export default async function deleteFood(token, id) {
+export default async function deleteFood(token, mealId, foodId) {
     let myHeaders = new Headers();
     myHeaders.append("x-access-token", token);
     myHeaders.append("Content-Type", "application/json");
@@ -9,7 +9,7 @@ export default async function deleteFood(token, id) {
     redirect: 'follow'
     };
 
-    let response = await fetch(`https://mysqlcs639.cs.wisc.edu/meals/${id}`, requestOptions);
+    let response = await fetch(`https://mysqlcs639.cs.wisc.edu/meals/${mealId}/foods/${foodId}`, requestOptions);
     let response_json = await response.json();
     return response_json;
 }

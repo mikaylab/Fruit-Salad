@@ -9,7 +9,7 @@ class HamburgerIcon extends React.Component {
 
     render() {
       return (
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row', left: 10 }}>
           <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
                 <Ionicons style={{ width: 25, height: 45, marginLeft: 15, color: 'white' }} size={45} name="ios-menu"></Ionicons>
           </TouchableOpacity>

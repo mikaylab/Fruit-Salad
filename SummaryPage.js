@@ -59,8 +59,6 @@ class SummaryPage extends React.Component {
         }
     }
     async getAllFoods() {
-        //Use meals!
-        //Go through each and calculate the calories, carbohydrates, fat, and protein
         let foods = [];
         let _food = new Array();
         for (const meal of this.state.meals) {
@@ -146,6 +144,7 @@ class SummaryPage extends React.Component {
         this.focusListener.remove();
     }
     render() {
+        // Could I add a load screen here?
         return (<ScrollView style={{flex:1}}>
                 <View style={{flex:0.1}}>
                     <Text style={{marginTop: 10, fontSize: 25, fontWeight: '700', color: 'black', alignSelf: 'center', alignContent:'center'}}>{this.day}</Text>

@@ -1,14 +1,15 @@
 import React from 'react';
-import {Text, View, StyleSheet, AsyncStorage, TouchableOpacity} from 'react-native';
+import {Animated,Text, View, StyleSheet, AsyncStorage, TouchableOpacity} from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { ListItem, Input, Button, Icon } from 'react-native-elements';
+import { ListItem, Input, Button, Icon, Tooltip } from 'react-native-elements';
 import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import Food from './Food';
 import moment from 'moment';
 import addMeal from './API/meals/addMeal';
 import updateMeal from './API/meals/updateMeal';
 import getMealFoods from './API/meals/foods/getMealFoods';
+import deleteFood from './API/meals/foods/deleteFood';
 
 export default class MealItem extends React.Component {
     constructor(props) {
@@ -51,7 +52,7 @@ export default class MealItem extends React.Component {
         try {
             let foodId = item.id;
             let token = await AsyncStorage.getItem('@CurrentToken');
-            let response = await deleteFood(token, foodId);
+            let response = await deleteFood(token, this.state.id, foodId);
             if (response !== null) {
                 console.log(response.message);
             }
@@ -148,6 +149,10 @@ export default class MealItem extends React.Component {
                                 <Icon color='white' type='font-awesome' size={20} name='plus'/>
                             </TouchableOpacity>
                         }
+                        subtitle={<Tooltip height={100} width={200} backgroundColor="lavender" popover={<Text>Swipe left on an item to delete it. Swipe right to edit an item.</Text>}>
+                            <Text>Want to edit or delete an item?</Text>
+                            </Tooltip>
+                        }
                         />
                     </View>
                     <View>
@@ -214,6 +219,23 @@ export default class MealItem extends React.Component {
     }
 }
 const styles = StyleSheet.create({
+    leftAction: {
+        backgroundColor: 'indigo',
+        justifyContent: 'center',
+        flex: 1
+    },
+    rightAction: {
+        backgroundColor: 'mediumpurple',
+        justifyContent: 'center',
+        flex: 1,
+        alignItems: 'flex-end'
+    },
+    actionText: {
+        color: 'white',
+        fontSize: 15,
+        fontWeight: 'bold',
+        padding: 20
+    },
     dateStyle: {
         width: 300,
         marginTop: 10,
