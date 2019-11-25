@@ -14,6 +14,7 @@ import MealLog from './MealsLog';
 import MealItem from './MealItem';
 import AddFood from './AddFood';
 import AddFoodItem from './AddFoodItem';
+import ModifyFoodItem from './ModifyFoodItem';
 
 
 const AuthSwitch = createSwitchNavigator(
@@ -39,20 +40,23 @@ const MealStack = createStackNavigator(
     "Meal Log": {
       screen: MealLog,
       navigationOptions: ({navigation}) => ({
-        title: 'Meal Log'
+        title: 'Meal Log',
+        headerLeft: null
       })
     },
     "MealItem": {
       screen: MealItem,
       navigationOptions: ({navigation}) => ({
-        title: 'Meal'
+        title: 'Meal',
+        headerLeft: null
       })
     },
-    "Foods": FoodStack
+    "Foods": FoodStack,
+    "Modify Food": ModifyFoodItem
   },
   {
     initialRouteName: "Meal Log",
-    headerMode: 'none'
+    headerMode: 'float'
   }
 )
 const ActivityStack = createStackNavigator(

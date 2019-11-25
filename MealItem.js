@@ -12,6 +12,17 @@ import getMealFoods from './API/meals/foods/getMealFoods';
 import deleteFood from './API/meals/foods/deleteFood';
 
 export default class MealItem extends React.Component {
+    static navigationOptions = ({navigation}) => {
+        return {
+        title: "Edit Food Item",
+        headerRight: () => (
+            <Button title="Done" titleStyle={[styles.linkText, {right: 10}]} type="clear" onPress={navigation.getParam('submitFields')}/>
+        ),
+        headerLeft: () => (
+            <Button title="Cancel" titleStyle={[styles.linkText, {left: 10}]} type="clear" onPress={() => navigation.goBack()}/>
+        )
+        }; 
+    };
     constructor(props) {
         super(props);
         this.state = {
@@ -63,14 +74,15 @@ export default class MealItem extends React.Component {
     }
     async modifyFood(item) {
         let params = {
-            id: item.id,
+            foodId: item.id,
+            mealId: this.state.id,
             name: item.name,
             calories: item.calories,
             carbohydrates: item.carbohydrates,
             protein: item.protein,
             fat: item.fat
         };
-        this.props.navigation.navigate("AddFoodItem", params);
+        this.props.navigation.navigate("Modify Food", params);
     }
     LeftActions({item, dragX, onPress}) {
         const scale = dragX.interpolate({
@@ -105,6 +117,7 @@ export default class MealItem extends React.Component {
         this.setState({name: this.props.navigation.getParam('name', "Name")});
         this.setState({date: this.props.navigation.getParam('date', moment().format("h:mm a"))})
         this.setState({id: this.props.navigation.getParam('id', undefined)});
+        this.props.navigation.setParams({submitFields: () => this.submitFields()});
         if (this.state.id) {
             this.getFoodList(this.state.id);
         }
