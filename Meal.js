@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View,TouchableOpacity, Platform, AsyncStorage, LayoutAnimation, UIManager, StyleSheet, FlatList} from 'react-native';
 import {ListItem, Divider} from 'react-native-elements';
-import Food from './Food';
+import Food from './Food/Food';
 import moment from 'moment';
 import pluralize from 'pluralize';
 import _ from 'lodash';

@@ -80,6 +80,7 @@ class MealLog extends React.Component {
     componentDidMount() {
         this.getMealList();
         this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            console.log("Updating meal Log!")
             this.getMealList();
         });
     }

@@ -4,7 +4,7 @@ import DatePicker from 'react-native-datepicker';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { ListItem, Input, Button, Icon, Tooltip } from 'react-native-elements';
 import { ScrollView, FlatList } from 'react-native-gesture-handler';
-import Food from './Food';
+import Food from './Food/Food';
 import moment from 'moment';
 import addMeal from './API/meals/addMeal';
 import updateMeal from './API/meals/updateMeal';
@@ -220,14 +220,6 @@ export default class MealItem extends React.Component {
                         }
                     />
                 </View>
-                <View style={{justifyContent: 'center', alignItems:'center'}}>
-                    <View style={styles.buttonStyle}>
-                        <Button containerStyle={{backgroundColor: 'rebeccapurple'}} title="Submit" titleStyle={{color: 'white'}} type='clear' onPress={() => {this.submitFields()}}/>
-                    </View>
-                    <View style={styles.buttonStyle}>
-                        <Button title="Cancel" titleStyle={{color: 'white'}} containerStyle={{backgroundColor: 'orchid'}} type='clear' onPress={() => this.props.navigation.goBack()}/>
-                    </View>
-                </View>
         </ScrollView>)
     }
 }
@@ -269,12 +261,6 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         fontSize: 15
-    },
-    buttonStyle: {
-        paddingTop: 10,
-        borderRadius: 10,
-        width: 100,
-        top: 10
     },
     addButton: {
         padding: 1,
