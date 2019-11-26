@@ -93,6 +93,7 @@ class SummaryPage extends React.Component {
             let token = await AsyncStorage.getItem('@CurrentToken');
             let mealList = await getMeals(token);
             if (mealList !== null) {
+                console.log(mealList.meals);
                 mealList.meals = mealList.meals.filter(dataFilter);
                 this.setState({meals: mealList.meals.reverse()});
             }

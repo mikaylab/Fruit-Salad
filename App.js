@@ -105,7 +105,7 @@ const TopDrawerNavigator = createDrawerNavigator(
     "Goal Progress": GoalProgress
   },
   {
-    initialRouteName: 'Goal Progress'
+    initialRouteName: 'Dashboard'
   }
 );
 
@@ -132,7 +132,7 @@ const RootStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "App",
+    initialRouteName: "Auth",
   });
 const AppContainer = createAppContainer(RootStack);
 
