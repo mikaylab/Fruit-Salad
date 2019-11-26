@@ -9,14 +9,14 @@ import moment from "moment";
 import _ from 'lodash';
 import getUserProfile from './API/user/getUserInfo';
 import getMealFoods from './API/meals/foods/getMealFoods';
+import dataFilter from './dayFilter';
 
 class SummaryPage extends React.Component {
     constructor(props) {
         super(props);
         this.getMeals = getMeals;
         this.getActivity = getActivity;
-        this.day = moment().format('dddd')
-        this.date = moment().format("MMMM Do YYYY");
+        this.today = moment();
         this.state = {
             meals: [],
             activities: [],
@@ -70,7 +70,7 @@ class SummaryPage extends React.Component {
         this.setState({foods: foods});
     }
     displayMeals() {
-        const list = this.state.meals.reverse();
+        const list = this.state.meals;
         if (list.length != 0)
          return list.map((e, i) => (
             <ListItem key={i} title={e.name} titleStyle={styles.listTitle} bottomDivider
@@ -87,12 +87,14 @@ class SummaryPage extends React.Component {
             rightSubtitle={moment(e.date).format("h:mm a")} rightTitleStyle={styles.listTitle}/>));
         else return <Text style={{alignContent: 'center', color: '#5622F5'}}>No activity has been logged yet.</Text>
     }
+     
     async getMealList() {
         try {
             let token = await AsyncStorage.getItem('@CurrentToken');
             let mealList = await getMeals(token);
             if (mealList !== null) {
-                this.setState({meals: mealList.meals});
+                mealList.meals = mealList.meals.filter(dataFilter);
+                this.setState({meals: mealList.meals.reverse()});
             }
         } catch (e) {
             console.log(e);
@@ -103,6 +105,7 @@ class SummaryPage extends React.Component {
             let token = await AsyncStorage.getItem('@CurrentToken');
             let activityList = await this.getActivity(token);
             if (activityList !== null) {
+                activityList.activities = activityList.activities.filter(dataFilter);
                 this.setState({activities: activityList.activities.reverse()});
             }
         } catch (e) {
@@ -147,8 +150,8 @@ class SummaryPage extends React.Component {
         // Could I add a load screen here?
         return (<ScrollView style={{flex:1}}>
                 <View style={{flex:0.1}}>
-                    <Text style={{marginTop: 10, fontSize: 25, fontWeight: '700', color: 'black', alignSelf: 'center', alignContent:'center'}}>{this.day}</Text>
-                    <Text style={{fontSize: 20, fontWeight: '700', color: 'gray', alignSelf: 'center', alignContent:'center'}}>{this.date}</Text>
+                    <Text style={{marginTop: 10, fontSize: 25, fontWeight: '700', color: 'black', alignSelf: 'center', alignContent:'center'}}>{this.today.format('dddd')}</Text>
+                    <Text style={{fontSize: 20, fontWeight: '700', color: 'gray', alignSelf: 'center', alignContent:'center'}}>{this.today.format("MMMM Do YYYY")}</Text>
                 </View>
                 <View style={{flex: 1}}>
                     <Card containerStyle={styles.cardStyle} title="My Goal Progress" titleStyle={{textAlign: 'left'}}>
