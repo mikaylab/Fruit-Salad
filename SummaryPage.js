@@ -131,16 +131,16 @@ class SummaryPage extends React.Component {
             console.log("Error occured getting user data");
         }
     }
+    async setUpPage() {
+        await this.getActivityList();
+        await this.getDailyGoals();
+        await this.getMealList();
+        await this.getAllFoods();
+    }
     componentDidMount() {
-        this.getActivityList();
-        this.getDailyGoals();
-        this.getMealList();
-        this.getAllFoods();
+        this.setUpPage();
         this.focusListener = this.props.navigation.addListener('didFocus', () => {
-            this.getActivityList();
-            this.getDailyGoals();
-            this.getMealList();
-            this.getAllFoods();
+            this.setUpPage();
         });
         
     }
