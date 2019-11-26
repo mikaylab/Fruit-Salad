@@ -7,18 +7,19 @@ import * as scale from 'd3-scale'
 export default class ProgressChart extends React.Component {
     render() {
         const data = this.props.data;
-        const CUT_OFF = 50
+        const val = this.props.value
+        const CUT_OFF = 100;
         const Labels = ({  x, y, bandwidth, data }) => (
             data.map((value, index) => (
                 <Text
                     key={ index }
-                    x={ value.value > CUT_OFF ? x(0) + 10 : x(value.value) + 10 }
+                    x={ value[val] > CUT_OFF ? x(0) + 10 : x(value[val]) + 10 }
                     y={ y(index) + (bandwidth / 2) }
                     fontSize={ 11 }
-                    fill={ value.value > CUT_OFF ? 'white' : 'black' }
+                    fill={ value[val] > CUT_OFF ? 'white' : 'black' }
                     alignmentBaseline={ 'middle' }
                 >
-                    {value.value}
+                    {value[val]}
                 </Text>
             ))
         )
@@ -31,13 +32,13 @@ export default class ProgressChart extends React.Component {
                     scale={scale.scaleBand}
                     contentInset={{top: 10, bottom: 10 }}
                     spacing={0.2}
-                    formatLabel={(_, index) => data[ index ].label}
+                    formatLabel={(_, index) => data[ index ].name}
                 />
                 <BarChart
                     style={{ flex: 1, marginLeft: 8 }}
                     data={data}
                     horizontal={true}
-                    yAccessor={({ item }) => item.value}
+                    yAccessor={({ item }) => item[val]}
                     svg={{ fill: 'rgba(134, 65, 244, 0.8)' }}
                     contentInset={{ top: 10, bottom: 10 }}
                     spacing={0.2}

@@ -146,7 +146,7 @@ export default class GoalProgress extends React.Component {
         return(
             <ScrollView>
                 <Card title="Calories">
-                {/* <ProgressChart data={data}/> */}
+                <ProgressChart data={this.state.days} value="totalCalories"/>
                 </Card>
             </ScrollView>
         )
