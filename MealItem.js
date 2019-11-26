@@ -10,6 +10,9 @@ import addMeal from './API/meals/addMeal';
 import updateMeal from './API/meals/updateMeal';
 import getMealFoods from './API/meals/foods/getMealFoods';
 import deleteFood from './API/meals/foods/deleteFood';
+import pluralize from 'pluralize';
+import _ from 'lodash';
+import round from './round';
 
 export default class MealItem extends React.Component {
     static navigationOptions = ({navigation}) => {
@@ -31,6 +34,26 @@ export default class MealItem extends React.Component {
             date: moment().format('h:mm a'),
             foods: []
         }
+    }
+    totalAmount(item) {
+        if (_.isEmpty(this.state.foods)) {
+            return 0;
+        }
+        let value = "";
+        const list = Array.from(this.state.foods);
+        switch (item) {
+            case "calories": value = "calories"; break;
+            case "carbohydrates": value = "carbohydrates"; break;
+            case "fat": value = "fat"; break;
+            case "protein": value = "protein"; break;
+            default: console.log(`Item not recognized: ${item}`); break;
+        }
+        let total = 0.0;
+
+        list.map(e => {
+            total += e[value];
+        });
+        return round(total, 2);
     }
     async getFoodList(mealId) {
         try {
@@ -151,6 +174,18 @@ export default class MealItem extends React.Component {
                 { this.state.id ? 
                 <View>
                     <View>
+                        <ListItem
+                        title="Nutrition"
+                        titleStyle={styles.titleStyle}
+                        bottomDivider
+                        subtitleStyle={styles.textStyle}
+                        subtitle={<View>
+                            <Text style={styles.dataStyle}>Total Calories: {pluralize('calorie', this.totalAmount("calories"), true)}</Text>
+                            <Text style={styles.dataStyle}>Total Carbohydrates: {pluralize('unit', this.totalAmount("carbohydrates"), true)}</Text>
+                            <Text style={styles.dataStyle}>Total Protein: {pluralize('unit', this.totalAmount("protein"), true)}</Text>
+                            <Text style={styles.dataStyle}>Total Fat: {pluralize('gram', this.totalAmount("fat"), true)}</Text>
+                        </View>}
+                        />
                     <ListItem 
                         title="Foods"
                         titleStyle={styles.titleStyle}
@@ -240,6 +275,11 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         padding: 20
+    },
+    linkText: {
+        color: '#46a2c7',
+        fontSize: 20,
+        fontWeight: '500'
     },
     dateStyle: {
         width: 300,

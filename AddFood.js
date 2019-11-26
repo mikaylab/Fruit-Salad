@@ -6,6 +6,7 @@ import Food from './Food';
 import Modal from './Modal';
 import _ from 'lodash';
 import addFood from './API/meals/foods/addFood';
+import round from './round';
 
 export default class AddFood extends React.Component {
     // Will use the Done to pass the food back to Meal Item!
@@ -27,10 +28,10 @@ export default class AddFood extends React.Component {
     }
     async addFood(item) {
         item.name = _.capitalize(item.name);
-        item.calories *= this.state.servingSize;
-        item.carbohydrates *= this.state.servingSize;
-        item.protein *= this.state.servingSize;
-        item.fat *= this.state.servingSize;
+        item.calories = round(item.calories * this.state.servingSize, 2);
+        item.carbohydrates = round(item.carbohydrates * this.state.servingSize, 2);
+        item.protein = round(item.protein * this.state.servingSize, 2);
+        item.fat = round(item.fat * this.state.servingSize, 2);
         try {
             let token = await AsyncStorage.getItem('@CurrentToken');
             let response = await addFood(item, token, this.state.id);

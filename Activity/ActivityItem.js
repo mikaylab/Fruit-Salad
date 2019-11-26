@@ -8,6 +8,16 @@ import addActivity from '../API/activity/addActivity';
 import updateActivity from '../API/activity/updateActivity';
 
 export default class NewActivity extends React.Component {
+    static navigationOptions = ({navigation}) => {
+        return {
+        headerRight: () => (
+            <Button title="Done" titleStyle={[styles.linkText, {right: 10}]} type="clear" onPress={navigation.getParam('submitFields')}/>
+        ),
+        headerLeft: () => (
+            <Button title="Cancel" titleStyle={[styles.linkText, {left: 10}]} type="clear" onPress={() => navigation.goBack()}/>
+        )
+        }; 
+    };
     constructor(props) {
         super(props);
         this.state = {
@@ -48,6 +58,7 @@ export default class NewActivity extends React.Component {
         this.setState({date: this.props.navigation.getParam('date', moment().format("h:mm a"))});
         this.setState({duration: this.props.navigation.getParam('duration', 0)});
         this.setState({calories: this.props.navigation.getParam('calories', 0)});
+        this.props.navigation.setParams({submitFields: () => this.submitFields()})
     }
     render() {
         return(<ScrollView>
@@ -132,14 +143,6 @@ export default class NewActivity extends React.Component {
                         }
                     />
                 </View>
-                <View style={{justifyContent: 'center', alignItems:'center'}}>
-                    <View style={styles.buttonStyle}>
-                        <Button containerStyle={{backgroundColor: 'rebeccapurple'}} title="Submit" titleStyle={{color: 'white'}} type='clear' onPress={() => {this.submitFields()}}/>
-                    </View>
-                    <View style={styles.buttonStyle}>
-                        <Button title="Cancel" titleStyle={{color: 'white'}} containerStyle={{backgroundColor: 'orchid'}} type='clear' onPress={() => this.props.navigation.goBack()}/>
-                    </View>
-                </View>
         </ScrollView>)
     }
 }
@@ -165,10 +168,9 @@ const styles = StyleSheet.create({
     textStyle: {
         fontSize: 15
     },
-    buttonStyle: {
-        paddingTop: 10,
-        borderRadius: 10,
-        width: 100,
-        top: 10
+    linkText: {
+        color: '#46a2c7',
+        fontSize: 20,
+        fontWeight: '500'
     }
 })
