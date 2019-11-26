@@ -12,9 +12,9 @@ import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createStackNavigator} from 'react-navigation-stack';
 import MealLog from './MealsLog';
 import MealItem from './MealItem';
-import AddFood from './Food/AddFood';
-import AddFoodItem from './Food/AddFoodItem';
-import ModifyFoodItem from './Food/ModifyFoodItem';
+import AddFood from './AddFood';
+import AddFoodItem from './AddFoodItem';
+import ModifyFoodItem from './ModifyFoodItem';
 import GoalProgress from './GoalProgress';
 
 

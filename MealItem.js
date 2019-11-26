@@ -4,7 +4,7 @@ import DatePicker from 'react-native-datepicker';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { ListItem, Input, Button, Icon, Tooltip } from 'react-native-elements';
 import { ScrollView, FlatList } from 'react-native-gesture-handler';
-import Food from './Food/Food';
+import Food from './Food';
 import moment from 'moment';
 import addMeal from './API/meals/addMeal';
 import updateMeal from './API/meals/updateMeal';

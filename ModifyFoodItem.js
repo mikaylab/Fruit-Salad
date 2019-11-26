@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, AsyncStorage, StyleSheet} from 'react-native';
 import {ListItem, Input, Button} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
-import updateFood from '../API/meals/foods/updateFood';
+import updateFood from './API/meals/foods/updateFood';
 import _ from 'lodash';
 
 export default class ModifyFoodItem extends React.Component {
