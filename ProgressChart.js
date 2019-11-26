@@ -7,7 +7,8 @@ import * as scale from 'd3-scale'
 export default class ProgressChart extends React.Component {
     render() {
         const data = this.props.data;
-        const val = this.props.value
+        const val = this.props.value;
+
         const CUT_OFF = 100;
         const Labels = ({  x, y, bandwidth, data }) => (
             data.map((value, index) => (
@@ -15,7 +16,7 @@ export default class ProgressChart extends React.Component {
                     key={ index }
                     x={ value[val] > CUT_OFF ? x(0) + 10 : x(value[val]) + 10 }
                     y={ y(index) + (bandwidth / 2) }
-                    fontSize={ 11 }
+                    fontSize={11}
                     fill={ value[val] > CUT_OFF ? 'white' : 'black' }
                     alignmentBaseline={ 'middle' }
                 >

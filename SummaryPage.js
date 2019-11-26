@@ -10,6 +10,7 @@ import _ from 'lodash';
 import getUserProfile from './API/user/getUserInfo';
 import getMealFoods from './API/meals/foods/getMealFoods';
 import dataFilter from './dayFilter';
+import round from './round';
 
 class SummaryPage extends React.Component {
     constructor(props) {
@@ -45,7 +46,7 @@ class SummaryPage extends React.Component {
         list.forEach(e => {
             total += e[value];
         });
-        return Math.round(total);
+        return round(total, 2);
     }
     async getFoodList(mealId) {
         try {

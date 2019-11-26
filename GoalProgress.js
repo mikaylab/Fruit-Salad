@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet, AsyncStorage, TouchableOpacity} from 'react-native';
+import {Text, StyleSheet, AsyncStorage} from 'react-native';
 import {Card} from 'react-native-elements';
 import { ScrollView} from 'react-native-gesture-handler';
 import ProgressChart from './ProgressChart';
@@ -9,6 +9,7 @@ import getActivity from './API/activity/getActivity';
 import sevenDayFilter from './sevenDayFilter';
 import getUserProfile from './API/user/getUserInfo';
 import moment from 'moment';
+import round from './round';
 
 export default class GoalProgress extends React.Component {
     constructor(props) {
@@ -39,7 +40,7 @@ export default class GoalProgress extends React.Component {
        _list.map(e => {
             total += e[value];
         });
-        return Math.round(total);
+        return round(total, 2);
     }
     async getFoodList(mealId) {
         try {
@@ -145,8 +146,25 @@ export default class GoalProgress extends React.Component {
     render() {
         return(
             <ScrollView>
+                <Card title="Activity">
+                    <ProgressChart data={this.state.days} value="totalActivity"/>
+                    <Text>Daily Goal: {this.state.dailyActivityGoal}</Text>
+                </Card>
                 <Card title="Calories">
                 <ProgressChart data={this.state.days} value="totalCalories"/>
+                <Text>Daily Goal: {this.state.dailyCaloriesGoal}</Text>
+                </Card>
+                <Card title="Carbohydrates">
+                    <ProgressChart data={this.state.days} value="totalCarbohydrates"/>
+                    <Text>Daily Goal: {this.state.dailyCarbohydratesGoal}</Text>
+                </Card>
+                <Card title="Protein">
+                    <ProgressChart data={this.state.days} value="totalProtein"/>
+                    <Text>Daily Goal: {this.state.dailyProteinGoal}</Text>
+                </Card>
+                <Card title="Fat">
+                    <ProgressChart data={this.state.days} value="totalFat"/>
+                    <Text>Daily Goal: {this.state.dailyFatGoal}</Text>
                 </Card>
             </ScrollView>
         )

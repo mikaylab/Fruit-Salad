@@ -6,6 +6,7 @@ import moment from 'moment';
 import pluralize from 'pluralize';
 import _ from 'lodash';
 import getMealFoods from './API/meals/foods/getMealFoods';
+import round from './round';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -47,7 +48,7 @@ export default class Meal extends React.Component {
         list.map(e => {
             total += e[value];
         });
-        return total;
+        return round(total, 2);
     }
     componentDidMount() {
         this.getFoodList(this.props.id);

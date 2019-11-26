@@ -81,7 +81,7 @@ const ActivityStack = createStackNavigator(
   },
   {
     initialRouteName: 'Activity Log',
-    headerMode: 'none'
+    headerMode: 'float'
   }
 )
 const TopDrawerNavigator = createDrawerNavigator(
