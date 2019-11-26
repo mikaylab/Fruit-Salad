@@ -5,6 +5,7 @@ import Activity from './Activity';
 import { Icon, ListItem, Tooltip } from 'react-native-elements';
 import getActivity from '../API/activity/getActivity';
 import deleteActivity from '../API/activity/deleteActivity';
+import dataFilter from '../dayFilter';
 
 class ActivityLog extends React.Component {
     constructor(props) {
@@ -18,6 +19,7 @@ class ActivityLog extends React.Component {
             let token = await AsyncStorage.getItem('@CurrentToken');
             let activityList = await getActivity(token);
             if (activityList !== null) {
+                activityList.activities = activityList.activities.filter(dataFilter);
                 this.setState({activities: activityList.activities});
             }
         } catch (e) {

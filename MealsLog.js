@@ -5,7 +5,7 @@ import Meal from './Meal';
 import { Icon, ListItem, Tooltip } from 'react-native-elements';
 import getMeals from './API/meals/getMeals';
 import deleteMeal from './API/meals/deleteMeal';
-
+import dataFilter from './dayFilter';
 
 class MealLog extends React.Component {
     constructor(props) {
@@ -19,6 +19,7 @@ class MealLog extends React.Component {
             let token = await AsyncStorage.getItem('@CurrentToken');
             let mealList = await getMeals(token);
             if (mealList !== null) {
+                mealList.meals = mealList.meals.filter(dataFilter);
                 this.setState({meals: mealList.meals});
             }
         } catch (e) {
@@ -80,7 +81,6 @@ class MealLog extends React.Component {
     componentDidMount() {
         this.getMealList();
         this.focusListener = this.props.navigation.addListener('didFocus', () => {
-            console.log("Updating meal Log!")
             this.getMealList();
         });
     }
