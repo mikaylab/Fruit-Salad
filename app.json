@@ -13,7 +13,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/fruitSalad2.png",
+      "image": "./assets/fruitSalad.png",
       "resizeMode": "contain",
       "backgroundColor": "#cb6ce6"
     },
