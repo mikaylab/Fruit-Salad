@@ -10,7 +10,7 @@
   "dependencies": {
     "base-64": "^0.1.0",
     "expo": "^35.0.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "pluralize": "^8.0.0",
     "react": "16.8.3",
